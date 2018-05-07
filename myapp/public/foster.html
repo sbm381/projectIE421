@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html >
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+
+<!-- Foster Container -->
+<style>
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+ 
+<div ng-app="myapp"><div ng-controller="crud_controller">
+
+  <!-- Fourth Container -->
+<div class="container-fluid bg-1 text-center" id="how">
+  <h3 class="margin">Foster Form</h3>
+  <div>
+
+    <form class="form-group">
+    Name:<br>
+    <input type="text" class="form-control" ng-model="foster_name" required>
+    <br><br>
+    Age:<br>
+    <input type="text" class= "form-control" ng-model="foster_age" required>
+    <br><br>
+    Contact (phone or email):<br>
+    <input type="text" class= "form-control" ng-model="foster_contact" required>
+    <br><br>
+    Veterinarian:<br>
+    <input type="text" class= "form-control" ng-model="foster_vet" required>
+    <br><br>
+    Other Pets:<br>
+    <input type="text" class= "form-control" ng-model="foster_other_pets" required>
+    <br><br>
+    Desired Foster Length:<br>
+    <input type="text" class="form-control" ng-model="foster_length" required>
+    <br><br>
+    Animal ID:<br>
+    <input type="text" class= "form-control" ng-model="animal_ID" required>
+    <br><br>
+    Facility:<br>
+    <input type="text" class= "form-control" ng-model="facility_ID" required>
+    <br><br>
+    <button type="submit" class="btn btn-default" ng-click="save()">Add</button>
+  </form>
+   
+  </div>
+  <h3>{{c_status}}</h3>
+</div>
+
+</div></div>
+
+<script>
+var app = angular.module('myapp', []);
+
+app.controller('crud_controller', function($scope, $http) {
+    // add
+  $scope.save = function () {
+    $http.post("mysql/foster_record", {"foster_name": $scope.foster_name, "foster_age": $scope.foster_age, "foster_contact": $scope.foster_contact, "foster_vet": $scope.foster_vet, "foster_other_pets": $scope.foster_other_pets, "foster_length": $scope.foster_length, "animal_ID": $scope.animal_ID, "facility_ID": $scope.facility_ID})
+    .then(function (response) {
+       
+        $scope.foster_name = '';
+        $scope.foster_age = '';
+        $scope.foster_contact = '';
+        $scope.foster_vet = '';
+        $scope.foster_other_pets = '';
+        $scope.foster_length = '';
+        $scope.animal_ID = '';
+        $scope.facility_ID = '';
+
+        $scope.r_status = 'Wow! It works!';
+        
+        alert('We have received your form. We will be in touch with you soon!');
+        // $scope.added = response.data;
+        console.log(response.data);
+    }, function myError(response) {
+      $scope.r_status = 'Ooops! Error!';
+    });
+  };
+ });
+
+
+</script>
+
+</body>
+</html>

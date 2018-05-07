@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html >
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+
+<!-- Animals Container -->
+<style>
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+ 
+<div ng-app="myapp"><div ng-controller="crud_controller">
+
+  <!-- Fourth Container -->
+<div class="container-fluid bg-1 text-center" id="how">
+  <h3 class="margin">ENTIRE POPULATION OF ANIMALS</h3>
+  <div ng-init="show()">
+    <table class="table">
+      <tr>
+        <td>Animal ID</td><td>Location ID</td><td>NAME</td><td>TYPE</td><td>BREED</td><td>AGE</td><td>REPRODUCTIVE STATUS</td><td>INTAKE DATE</td>
+      </tr>
+      <tr ng-repeat="x in names">
+        <td>{{ x.animal_ID }}</td>
+        <td>{{ x.facility_ID }}</td>
+        <td>{{ x.animal_name }}</td>
+        <td>{{x.animal_type}}</td>
+        <td>{{x.animal_breed}}</td>
+        <td>{{x.animal_age}}</td>
+        <td>{{x.reproductive_status}}</td>
+        <td>{{x.intake_date}}</td>
+      </tr>
+    </table>
+  </div>
+  <h3>{{c_status}}</h3>
+</div>
+
+</div></div>
+
+<script>
+var app = angular.module('myapp', []);
+
+app.controller('crud_controller', function($scope, $http) {
+  // query
+  $scope.show = function () {
+   $http.get("mysql/animal")
+   .then(function (response) {
+      $scope.names = response.data;
+      $scope.c_status = '';
+      // console.log(response.data);
+  });
+ };
+
+
+});
+
+</script>
+
+</body>
+</html>
